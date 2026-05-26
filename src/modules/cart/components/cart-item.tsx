@@ -1,27 +1,27 @@
-"use client";
+'use client'
 
-import type { CartLineItem } from "@/types/cart.types";
-import { useCart } from "@/hooks/use-cart";
-import { formatCurrency } from "@/utils/currency";
-import { useState } from "react";
+import type { CartLineItem } from '@/types/cart.types'
+import { useCart } from '@/hooks/use-cart'
+import { formatCurrency } from '@/utils/currency'
+import { useState } from 'react'
 
 type CartItemProps = {
-  item: CartLineItem;
-};
+  item: CartLineItem
+}
 
 function QtyStepper({ item }: { item: CartLineItem }) {
-  const { decrement, increment, isItemPending } = useCart();
-  const pending = isItemPending(item.id);
-  const [bumpKey, setBumpKey] = useState(0);
+  const { decrement, increment, isItemPending } = useCart()
+  const pending = isItemPending(item.id)
+  const [bumpKey, setBumpKey] = useState(0)
 
   const bump = (delta: number) => {
-    setBumpKey((k) => k + 1);
-    if (delta > 0) increment(item.id);
-    else decrement(item.id);
-  };
+    setBumpKey((k) => k + 1)
+    if (delta > 0) increment(item.id)
+    else decrement(item.id)
+  }
 
   return (
-    <div className={`mc-stepper ${pending ? "is-pending" : ""}`}>
+    <div className={`mc-stepper ${pending ? 'is-pending' : ''}`}>
       <button
         type="button"
         className="mc-step-btn"
@@ -56,25 +56,20 @@ function QtyStepper({ item }: { item: CartLineItem }) {
         </svg>
       </button>
     </div>
-  );
+  )
 }
 
 export function CartItem({ item }: CartItemProps) {
-  const { removeItem, isItemPending, currency } = useCart();
-  const lineTotal = item.product.price * item.quantity;
-  const pending = isItemPending(item.id);
+  const { removeItem, isItemPending, currency } = useCart()
+  const lineTotal = item.product.price * item.quantity
+  const pending = isItemPending(item.id)
 
   return (
-    <li className={`mc-line ${pending ? "is-pending" : ""}`}>
+    <li className={`mc-line ${pending ? 'is-pending' : ''}`}>
       <div className="mc-line-img">
         {item.product.thumbnailUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={item.product.thumbnailUrl}
-            alt=""
-            width={76}
-            height={92}
-          />
+          <img src={item.product.thumbnailUrl} alt="" width={76} height={92} />
         ) : (
           <div className="mc-line-img-placeholder" />
         )}
@@ -106,14 +101,9 @@ export function CartItem({ item }: CartItemProps) {
             <span className="mc-line-price-amount">
               {formatCurrency(lineTotal, currency)}
             </span>
-            {item.quantity > 1 ? (
-              <span className="mc-line-price-unit">
-                {formatCurrency(item.product.price, currency)} ea.
-              </span>
-            ) : null}
           </div>
         </div>
       </div>
     </li>
-  );
+  )
 }
